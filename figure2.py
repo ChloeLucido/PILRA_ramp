@@ -18,7 +18,7 @@ pilra_speeds = pd.read_csv('pilra_speeds.txt', skiprows=[0,2,3,4,5,6,7],
 pilra_mutant_speed = pd.read_csv('pilra_mutant_speeds.txt', skiprows=[0],
                                 dtype=np.float64, header=None)
 
-# Calculate sliding window means for predicted translation rates
+# Calculate sliding window means 
 
 speeds = pilra_speeds.values[0]
 N = 9 # Use a 9-codon window (the default setting for ExtRamp)
@@ -37,18 +37,11 @@ plt.plot(positions, windowMeans, 'b', label="Consensus Sequence")
 #plt.plot()
 plt.xlim([0,301]) # Doesn't run when set to 300...?
 plt.ylim([0,1.1])
-# Any ideas about more accurate/precise labels/titles for the figure?
-# Specifically, how do we reference that these are predicted means?
-plt.ylabel('Relative Rate of Translation') 
+plt.ylabel('Relative Codon Adaptiveness') 
 plt.xlabel('Codon Position')
-plt.title('Predicted Rate of Translation for PILRA') 
+plt.title('Predicted Codon Adaptiveness for PILRA') 
 plt.annotate('Ramp sequence region', xy=(25,.6),
              xytext=(25, .3), arrowprops=dict(facecolor='black', shrink=0.05))
 plt.legend(loc="lower right")
 plt.show()
 
-# An idea of what text could accompany/explain a figure like this:
-# Figure 2: Predicted rate of translation of PILRA mRNA, produced using ExtRamp.
-# The plot depicts mean translation rates produced using a sliding window
-# of 9-codons. The ramp sequence, which by definition is located at the
-# beginning of the sequence, has been labeled for clarity.
