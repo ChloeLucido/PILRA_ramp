@@ -32,16 +32,40 @@ positions = range(1, 295) # for x-axis
 
 # Plot the data
 
-plt.plot(positions, mutant_windowMeans, 'r', label="rs2405442")
-plt.plot(positions, windowMeans, 'b', label="Consensus Sequence")
+#plt.plot(positions, mutant_windowMeans, 'r', label="rs2405442")
+#plt.plot(positions, windowMeans, 'b', label="Consensus Sequence")
 #plt.plot()
-plt.xlim([0,301]) # Doesn't run when set to 300...?
-plt.ylim([0,1.1])
-plt.ylabel('Relative Codon Adaptiveness') 
-plt.xlabel('Codon Position')
-plt.title('Predicted Codon Adaptiveness for PILRA') 
-plt.annotate('Ramp sequence region', xy=(25,.6),
-             xytext=(25, .3), arrowprops=dict(facecolor='black', shrink=0.05))
-plt.legend(loc="lower right")
-plt.show()
+#plt.xlim([0,301]) # Doesn't run when set to 300...?
+#plt.ylim([0,1.1])
+#plt.ylabel('Relative Codon Adaptiveness') 
+#plt.xlabel('Codon Position')
+#plt.title('Predicted Codon Adaptiveness for PILRA') 
+#plt.annotate('Ramp sequence region', xy=(25,.6),
+#             xytext=(25, .3), arrowprops=dict(facecolor='black', shrink=0.05))
+#plt.legend(loc="lower right")
+#plt.show()
 
+fig, ax = plt.subplots() # create a new figure with a default 111 subplot
+
+ax.plot(positions, mutant_windowMeans, 'r', label="rs2405442")
+ax.plot(positions, windowMeans, 'b', label="Consensus")
+from mpl_toolkits.axes_grid1.inset_locator import zoomed_inset_axes
+axins = zoomed_inset_axes(ax, 2.5, loc=8)
+axins.plot(positions, mutant_windowMeans, 'r')
+axins.plot(positions, windowMeans, 'b')
+ax.set_xlim([0,301]) # Doesn't run when set to 300...?
+ax.set_ylim([0,1.1])
+x1, x2, y1, y2 = 0, 30, 0.7, 0.95 # specify the limits
+axins.set_xlim(x1, x2) # apply the x-limits
+axins.set_ylim(y1, y2)
+plt.yticks(visible=False)
+plt.xticks(visible=False)
+from mpl_toolkits.axes_grid1.inset_locator import mark_inset
+mark_inset(ax, axins, loc1=2, loc2=1, fc="none", ec="0.5")
+
+ax.set_ylabel('Relative Codon Adaptiveness') 
+ax.set_xlabel('Codon Position')
+ax.set_title('Relative Codon Adaptiveness for PILRA') 
+ax.annotate('Ramp sequence region', xy=(15,.6),
+             xytext=(7, .3), arrowprops=dict(facecolor='black', shrink=0.05))
+ax.legend(loc="lower right")
