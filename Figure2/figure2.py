@@ -69,3 +69,6 @@ ax.set_title('Relative Codon Adaptiveness for PILRA')
 ax.annotate('Ramp sequence region', xy=(15,.6),
              xytext=(7, .3), arrowprops=dict(facecolor='black', shrink=0.05))
 ax.legend(loc="lower right")
+
+
+plt.savefig('pilra_speeds.png',dpi=300)
