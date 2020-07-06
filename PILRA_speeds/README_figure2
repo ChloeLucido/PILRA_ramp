@@ -1,0 +1,21 @@
+This directory contains 3 files used to generate figure 2:
+
+- pilra_speeds.txt contains the relative codon adaptiveness of each codon used in PILRA wildtype (all four isoforms are included). 
+- pilra_mutant_speeds.txt contains the relative codon adaptiveness of each codon used in PILRA mutant (rs2405442).
+
+Both of these files were generated from ExtRamp using the option to output the relative codon adaptiveness to a file (-p).
+
+- figure2.py is a python program that generates figure 2 using the data.
+
+REQUIREMENTS: 
+figure2.py can be ran using Python version 3 in a Linux environment, or from the
+original colab notebook at https://colab.research.google.com/drive/1Takwim6IDOUFHBlr_4o_8hkKJkmA8kPQ
+
+Python libraries:
+1. pandas
+2. numpy
+3. matplotlib.pyplot
+
+If any of those libraries is not currently in your Python Path, use the following command:
+pip3 install --user [library_name]
+to install the library to your path.

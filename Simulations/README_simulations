@@ -1,0 +1,47 @@
+####################
+
+Simulations Analysis Pipeline
+This directory contains the scripts and data used for the simulations analysis.
+Each nucleotide in PILRA was mutated to each of the different nucleotides. These mutated genes
+were then analyzed in ExtRamp to determine if these mutations destroyed, created, or changed a ramp sequence.
+This was then compared to the result of 1000 randomly-selected genes.
+
+###################
+
+Step 1: Make permuted versions of PILRA and 1000 random genes. Execute the following commands:
+
+python randomSimulationsPILRA.py data/pilra.fasta 
+python randomSimulations1000.py data/GRCh38_longestIsoforms.fa
+
+This will create the directory data/pilra_permutations and data/1000_permutations with each permuted gene grouped by its
+quantile in the gene and type of mutation (synonymous/non-synonymous).
+
+###################
+
+Step 2: Identify ramp sequences. Execute the following commands:
+
+bash RunRamps.bash data/pilra_permutations
+bash RunRamps.bash data/1000_permutations
+
+These commands will run ExtRamp on each of the files in the directory using the GRch38 reference file to calculate
+relative codons efficiencies. They will output ramp fastas in the same directory.
+
+###################
+
+Step 3: Calculate ramp sequences created, destroyed, and changed. Execute the following command:
+
+python makeFigureData.py data/pilra_permutations data/pilra_permutations_data.tsv
+python makeFigureData.py data/1000_permutations data/1000_permutations_data.tsv
+
+This will make the summary files data/pilra_permutations_data.tsv and data/1000_permutations_data.tsv.
+
+###################
+
+Step 4: Create the figure. Execute the following commands:
+
+Rscript makeFigure3.R data/pilra_permutations_data.tsv
+Rscript makeFigure3.R data/1000_permutations_data.tsv
+
+This will generate the figures used in the publication.
+
+

@@ -1,12 +1,15 @@
 #! /usr/bin/env python
-#This script will take the hg38 ref file and make files for 10%, 20%, etc. for both synonymous and nonsynonymous codon changes
-#Input 1 - hg38 fasta file
-#Input 2 - an output directory
+#This script will take the grch38 ref file and make files for 10%, 20%, etc. for both synonymous and nonsynonymous codon changes
+#Input - grch38 fasta file 
 
 import sys
 from Bio.Seq import Seq
 import random
 from random import sample
+import os
+
+if not os.path.exists('data/1000_permutations'):
+        os.makedirs('data/1000_permutations')
 
 random.seed(0)
 
@@ -27,28 +30,28 @@ randGenes = sample(genes,1000)
 
 ####Open all of the files
 for x in range(10,101,10):
-	synFile = open(sys.argv[2] + "/" + str(x) + "%_synonymous_permutations.fasta", "w")
-	nonFile = open(sys.argv[2] + "/" + str(x) + "%_non-synonymous_permutations.fasta", "w")
-	synFile = open(sys.argv[2] + "/" + str(x) + "%_synonymous_permutations.fasta", "w")
-	nonFile = open(sys.argv[2] + "/" + str(x) + "%_non-synonymous_permutations.fasta", "w")
+	synFile = open("data/1000_permutations/" + str(x) + "%_synonymous_permutations.fasta", "w")
+	nonFile = open("data/1000_permutations/" + str(x) + "%_non-synonymous_permutations.fasta", "w")
+	synFile = open("data/1000_permutations/" + str(x) + "%_synonymous_permutations.fasta", "w")
+	nonFile = open("data/1000_permutations/" + str(x) + "%_non-synonymous_permutations.fasta", "w")
 
 #########Ok now lets start permuting our random genes 10% at a time
 for gene in genes:
 	header = gene[0]
-	seq = gene[1]
+	seq = gene[1].upper()
 	length = len(seq)
 	tenth = len(seq) // 10
 	currentIndex = 1
 	
-	synFile = open(sys.argv[2] + "/" + str(currentIndex * 10) + "%_synonymous_permutations.fasta", "a")
-	nonFile = open(sys.argv[2] + "/" + str(currentIndex * 10) + "%_non-synonymous_permutations.fasta", "a")
+	synFile = open("data/1000_permutations/" + str(currentIndex * 10) + "%_synonymous_permutations.fasta", "a")
+	nonFile = open("data/1000_permutations/" + str(currentIndex * 10) + "%_non-synonymous_permutations.fasta", "a")
 	for n in range(len(seq)):
 		if (n // tenth) + 1 > currentIndex and (n // tenth) + 1 < 11: 
 			currentIndex += 1
 			synFile.close()
 			nonFile.close()
-			synFile = open(sys.argv[2] + "/" + str(currentIndex * 10) + "%_synonymous_permutations.fasta", "a")
-			nonFile = open(sys.argv[2] + "/" + str(currentIndex * 10) + "%_non-synonymous_permutations.fasta", "a")
+			synFile = open("data/1000_permutations/" + str(currentIndex * 10) + "%_synonymous_permutations.fasta", "a")
+			nonFile = open("data/1000_permutations/" + str(currentIndex * 10) + "%_non-synonymous_permutations.fasta", "a")
 	
 		nucs = ['A','T','C','G']
 		nucs.remove(seq[n])

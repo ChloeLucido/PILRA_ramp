@@ -1,7 +1,11 @@
+#!/usr/bin/env Rscript
+args = commandArgs(trailingOnly=TRUE)
+
 library(ggplot2)
 library(readr)
+library(tidyr)
 
-pilra <- read_tsv("random_permutations_data.tsv")
+pilra <- read_tsv(args[1])
 pilra$Changed = pilra$Changed * 100
 pilra$Created = pilra$Created * 100
 pilra$Destroyed = pilra$Destroyed * 100
@@ -17,5 +21,5 @@ ggplot(pilra, aes(x = Location, y = Percent, colour = Mutation)) +
   ggtitle("Frequency of Ramp Sequences Changed By Random Mutations") +
   theme_bw()
 
- ggsave("random_permutations.pdf")
+ggsave("random_permutations.pdf")
 
