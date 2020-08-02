@@ -1,0 +1,42 @@
+###################
+Analyze variants README
+
+The scripts in this directory are used to analyze the target SNPs to determine if
+any of them created, destroyed, or changed a ramp sequence.
+###################
+
+Note: A few of the larger files have been compressed to reduce the size. They can be uncompressed using gunzip.
+
+Step 1: Find SNP locations in reference genome.
+    Run the following command:
+    grep -w -f data/target_snps.txt ../reference_data/hg38_avsnp147.txt > data/target_snp_positions.txt
+    This script will find the SNP locations in the GRCh38 reference genome. The file data/hg38_avsnp147.txt was downloaded from Annovar
+    and is included here for conveinece. The file data/target_snps.txt was the output file created from the steps described in the
+    Linkage_disequilibrium directory.
+
+Step 2: Format the variant file
+    The file data/target_snp_positions.txt needs to be converted to a VCF format file. This can be done simply by using a text editor
+    to add the header lines and a regular expression to change the order of the columns. The correctly-formatted file is included in
+    data/target_snp_positions.vcf
+
+Step 3: Make Fasta file of genes including the SNPs that are associated with, or in 
+    high linkage disequilibrium with Alzheimer's Disease SNPs.
+    Run the following command: 
+    python makeCombinedFastaForEachVariant.py -c reference_data/GRCh38_latest_genomic_CDS.fa -i data/target_snp_positions.vcf -o data/AD_variants.fa
+    The input for this program is the GRCh38 reference CDS regions, and a vcf file of the target SNPs.
+    It outputs data/AD_variants.fa, which is a Fasta file of the wild-type gene followed by its corresponding mutated gene.
+
+Step 4: Run ExtRamp on both the wild-type genes and the Alzheimer's Disease variant genes.
+    Run the following commands:
+    python ExtRamp/ExtRamp.py -i data/AD_variants.fa -o ramps_data/AD_sequences_ramps.fa -u ../reference_data/GRCh38_latest_genomic_CDS.fa 
+    This uses the ExtRamp program, which can be downloaded from https://github.com/ridgelab/ExtRamp and is also included here
+    for convenience. It outputs ramps_data/AD_sequences_ramps.fa which is a Fasta file that contains any ramp sequences that were
+    identified in the data/AD_variants.fa file.
+
+Step 5: Identify any ramp sequences that were different in  wild-type and mutant genes
+    Run the following command:
+    python getDifferentRamps.py data/AD_variants.fa ramps_data/AD_sequences_ramps.fa ramps_data/AD_sequences_ramps_changed.fa
+    This script identifies any ramp sequences that were changed and output it to ramps_data/AD_sequences_ramps_changed.fa.
+
+
+

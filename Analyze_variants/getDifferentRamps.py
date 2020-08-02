@@ -22,7 +22,6 @@ while header !="":
         normalToDif[lastNormal] = header
     header = regGenes.readline()
 regGenes.close()
-print ("1")
 normalToRamp = {}
 header = ramps.readline()
 while header != "":
@@ -34,7 +33,6 @@ while header != "":
 
 ramps.close()
 ramps = open(sys.argv[2])
-print ("2")
 
 header = ramps.readline()
 allUsedNormalHeaders = set()
