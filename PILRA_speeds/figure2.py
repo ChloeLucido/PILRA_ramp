@@ -35,7 +35,7 @@ positions = range(1, 295) # for x-axis
 fig, ax = plt.subplots() # create a new figure with a default 111 subplot
 
 ax.plot(positions, mutant_windowMeans, 'r', label="rs2405442")
-ax.plot(positions, windowMeans, 'b', label="Consensus")
+ax.plot(positions, windowMeans, 'b', label="NP_038467.2")
 from mpl_toolkits.axes_grid1.inset_locator import zoomed_inset_axes
 axins = zoomed_inset_axes(ax, 2.5, loc=8)
 axins.plot(positions, mutant_windowMeans, 'r')
